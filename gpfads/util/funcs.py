@@ -1,6 +1,5 @@
 import autograd.numpy as np
 from autograd.scipy.special import dawsn
-from myutils.grad_functions import imvoigt, myexpi, mylp_fdiff
 from autograd.extend import primitive, defvjp
 
 
@@ -11,16 +10,19 @@ sm_fplus = lambda tau, l, w : np.exp(-1/2*(tau/l)**2)*np.cos(w*tau*2*np.pi)
 sm_fdiff = lambda tau, l, w : np.exp(-1/2*(tau/l)**2)*np.sin(w*tau*2*np.pi) + np.exp(-1/2*(w*l*2*np.pi)**2)*imvoigt(tau/(l*np.sqrt(2)),(w*l*2*np.pi)/np.sqrt(2))
 
 ### EXPONENTIATED QUADRATIC ###
-sq_fdiff = lambda tau, l, w : (2/np.sqrt(np.pi))*dawsn((tau/(l*np.sqrt(2))))
-sq_fplus = lambda tau, l, w : np.exp(-1/2*(tau/l)**2)
+sq_fplus = lambda tau, l : np.exp(-1/2*(tau/l)**2)
+
+sq_fdiff = lambda tau, l : (2/np.sqrt(np.pi))*dawsn((tau/(l*np.sqrt(2))))
 
 ### LAPLACIAN ###
-lp_fdiff = lambda tau, l, w : mylp_fdiff(tau/l)
-lp_fplus = lambda tau, l, w : np.exp(-np.abs(tau/l))
+lp_fplus = lambda tau, l : np.exp(-np.abs(tau/l))
+lp_fdiff = lambda tau, l : mylp_fdiff(tau/l)
+
 
 ### COSINE ###
-c_fdiff = lambda tau, l, w : np.sin(l*tau*2*np.pi)
-c_fplus = lambda tau, l, w : np.cos(l*tau*2*np.pi)
+c_fplus = lambda tau, l : np.cos(l*tau*2*np.pi)
+c_fdiff = lambda tau, l : np.sin(l*tau*2*np.pi)
+
 
 
 ht_fdiff = lambda tau, l, w : tau*(1/(1 + tau**2))
