@@ -1,6 +1,6 @@
-/*.p
-/*.jpeg
-/*.npy
-/*.jpg
-/*.pyc
+*.p
+*.jpeg
+*.npy
+*.jpg
+*.pyc
 /.vscode/
