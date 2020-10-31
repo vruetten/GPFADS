@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
         fname = 'cov.png'
         fig, axs = pl.subplots(ncols = 2, figsize = (4, 2))
-        fig.suptitle('Multi-ouptut covariance', y = 1.2)
+        fig.suptitle('Multi-output covariance', y = 1.2)
         axs[0].imshow(Kxx_rev)
         axs[1].imshow(Kxx_nonrev)
         axs[0].set_title('reversible \n' + r'$\alpha = 0$')
