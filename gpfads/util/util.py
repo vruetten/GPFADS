@@ -1,5 +1,5 @@
-import numpy as np
-import numpy.random as npr
+import autograd.numpy as np
+import autograd.numpy.random as npr
 from toolz import curry
 import os
 
@@ -9,8 +9,7 @@ def sample(kern, nsamples):
     return samples
 
 def is_pd(K):
-    from numpy.linalg import cholesky
-    from numpy import linalg
+    from autograd.numpy.linalg import cholesky
     try:
         cholesky(K)
         return 1 

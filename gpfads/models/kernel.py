@@ -1,4 +1,4 @@
-import numpy as np
+import autograd.numpy as np
 from gpfads.util import funcs
 
 def intialise_kernel_params(d, kern = 'sq', kk = 1):

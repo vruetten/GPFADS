@@ -4,6 +4,7 @@ Gaussian Process Factor Analysis with Dynamical Structure
 
 ## Requirements
 - python3
+- scipy
 - [autograd](https://github.com/HIPS/autograd)
 
 

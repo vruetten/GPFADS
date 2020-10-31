@@ -24,6 +24,10 @@ if __name__ == "__main__":
     l0 = reg.logevidence(params_init)
     print(l0)
 
+    reg.optimise(params_init)
+    l1 = reg.logevidence(reg.params)
+    print(l1)
+
 
     # fig = pl.figure(figsize = (2,2))
     # ax = fig.add_subplot(1,1,1)

@@ -2,8 +2,10 @@ import autograd.numpy as np
 from gpfads.models.kernel import Kernel
 from autograd import grad
 from autograd.misc import flatten
-from autograd.numpy.linalg import inv, slogdet, svd, eigh
+from scipy.optimize import minimize
+from autograd.numpy.linalg import inv, slogdet, svd, eigh, cholesky
 import autograd.scipy.stats.multivariate_normal as mvn
+from time import time
 
 class GPregression():
     def __init__(self, ykdt, xt, mean = False, kern = 'sq'):
@@ -13,6 +15,7 @@ class GPregression():
         self.kern = kern
         self.mean = mean
         self.fudge = 1e-5
+        self.disp = True
         self.initialise()
 
     def initialise(self):
@@ -27,6 +30,7 @@ class GPregression():
         self.bounds = self.kernel.bounds + wnoiseb + meanpb
 
         self.ykt_ = self.ykdt.reshape([self.k, -1])
+        self.dict = {}
 
     def build_Kxx(self, x0, x1, params, prior = False):
         kern_params, wnoise, mean_params = self.unpack_params(params)
@@ -38,7 +42,7 @@ class GPregression():
     def logevidence(self, params):
         kern_params, wnoise, mean_params = self.unpack_params(params, fudge = self.fudge)
         Kxx = self.build_Kxx(self.xt, self.xt, params, prior = True)
-        L = np.linalg.cholesky(Kxx)
+        L = cholesky(Kxx)
         iL = inv(L)
         inv_Kxx = iL.T@iL
         if self.mean:
@@ -69,14 +73,14 @@ class GPregression():
         pass
 
     def optimise(self, params, num_ite = 1e4):
-        t0 = time.time()
+        t0 = time()
         ll0 = self.logevidence(params)
         x0, self.unflatten = flatten(params)
         self.res = minimize(self.objective, x0 = x0, method = 'L-BFGS-B', jac = self.grad_obj, options = {'disp':self.disp, 'maxiter': num_ite, 'gtol': 1e-7, 'ftol':1e-8}, callback = self.callback, bounds = self.bounds)
 
         self.params = self.unflatten(self.res['x'])
-        # self.dict['success'] = self.res['success']
-        # self.dict['nit'] = self.res['nit']         
+        self.dict['success'] = self.res['success']
+        self.dict['nit'] = self.res['nit']         
         print('\nsuccess: {0}'.format(self.res['success']))
         print('\nnit: {0}'.format(self.res['nit']))
         print('\ncause: {0}'.format(self.res['message']))
@@ -84,8 +88,8 @@ class GPregression():
         self.ll = self.logevidence(self.params) 
         # self.dict['params'].append(self.params)
         # self.dict['ll'].append(self.ll)
-        dur = (time.time()-t0)/60
-        # self.dict['dur'] = dur
+        dur = (time()-t0)/60
+        self.dict['dur'] = dur
         print('optimisation terminated... \nexecution time: {0}'.format(dur))
 
     def pred(self, xt, x1, ykdt, params):

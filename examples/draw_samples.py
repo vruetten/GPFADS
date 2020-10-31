@@ -1,5 +1,5 @@
-import numpy as np
-import numpy.random as npr
+import autograd.numpy as np
+import autograd.numpy.random as npr
 import matplotlib.pyplot as pl
 import matplotlib as mpl
 from gpfads.models.kernel import Kernel

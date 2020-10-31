@@ -1,4 +1,4 @@
-import numpy as np
+import autograd.numpy as np
 from gpfads.models.kernel import Kernel
 from gpfads.util import util
 

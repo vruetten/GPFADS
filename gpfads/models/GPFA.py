@@ -10,7 +10,6 @@ class GPFA():
         if yknt is not None:
             self.load_data(yknt, xt)
 
-
     def load_data(self, yknt, xt):
         self.yknt = yknt
         self.xt = xt
