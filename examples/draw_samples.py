@@ -5,20 +5,10 @@ import matplotlib as mpl
 from gpfads.models.kernel import Kernel
 from gpfads.util import util
 import os
-from toolz import curry
-
-
-@curry
-def savefig(fname, figpath):
-    fpath = figpath + fname
-    pl.savefig(fpath)
-    command = 'open ' + fpath
-    os.system(command)
-
 
 if __name__ == "__main__":
     figpath = './plots/'
-    mysavefig = savefig(figpath = figpath)
+    mysavefig = util.savefig(figpath = figpath)
 
     '''
     builds reversible and non-reversible covariance matrix (Kxx)

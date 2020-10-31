@@ -3,7 +3,7 @@ import autograd.numpy.random as npr
 from autograd.misc import flatten
 
 
-class GP_filt():
+class GPFA():
     def __init__(self, nlatent, kernel = 'sq', yknt = None, xt = None):
         self.d = nlatent
         self.kernel = kernel
