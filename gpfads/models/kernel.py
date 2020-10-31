@@ -1,13 +1,13 @@
 import autograd.numpy as np
-from gpfads.util import funcs
+from util import funcs
 
 def intialise_kernel_params(d, kern = 'sq', kk = 1):
     ''' d: number of outputs
         kk: # of length-scale per plane
         '''
-    alpha = np.ones((d, 1))*0
+    alpha = np.ones((d, 1))*0.
     alphab =[(0, .999)]*d
-    l = np.ones((d, kk))*1
+    l = np.ones((d, kk))*1.
     lb = [(1e-2, 1e3)]*d*kk
 
     if 'sm' in kern:
@@ -86,7 +86,7 @@ class Kernel():
             pp = list(zip(l[ind], w[ind]))
         else:
             l, alpha = self.unpack(kern_params)
-            pp = list(zip(l[ind]))
+            pp = [l[ind]]
         
         
         fplus, fdiff = self.build_F(x0, x1, pp, self.fplus, self.fdiff, split = False)
@@ -104,7 +104,7 @@ class Kernel():
         for ind in range(self.d//2):
             kxx = self.build_plane(ind, kern_params, x0, x1)
             Kxx.append(kxx)
-        return np.sum(Kxx, axis = 0)
+        return np.sum(np.array(Kxx), axis = 0)
 
 
     def build_F(self, x0, x1, params, fplus, fdiff, split = False):

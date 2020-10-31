@@ -12,9 +12,10 @@ def is_pd(K):
     from autograd.numpy.linalg import cholesky
     try:
         cholesky(K)
+        print('Matrix IS positive definite')
         return 1 
     except:
-        print('Matrix is not positive definite')
+        print('Matrix is NOT positive definite')
         return 0
     
 @curry
@@ -24,4 +25,4 @@ def savefig(fname, figpath):
     fpath = figpath + fname + ext
     pl.savefig(fpath)
     command = 'open ' + fpath
-    os.system(command)
+    # os.system(command)
