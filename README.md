@@ -8,7 +8,7 @@ Gaussian Process Factor Analysis with Dynamical Structure
 - [autograd](https://github.com/HIPS/autograd)
 
 
-## Non-Time Reversible Multi-Output GP kernels
+## Non-time reversible multi-output GP kernels
 
 Class for building non-reversible kernels
 
@@ -55,4 +55,6 @@ a.k.a.: GPFA with non-reversible priors
 
 
 ## References
+
+- [Non-reversible Gaussian processes for identifying latent dynamical structure in neural data - NeurIPS (2020)](https://vrutten.github.io/publications/rutten-neurips-2020/)
 
