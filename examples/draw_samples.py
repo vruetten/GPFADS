@@ -1,13 +1,16 @@
+import sys, time, os
+path = '/Users/virginiarutten/Documents/code/GPFADS/gpfads/'
+sys.path.append(path)
 import autograd.numpy as np
 import autograd.numpy.random as npr
 import matplotlib.pyplot as pl
 import matplotlib as mpl
-from gpfads.models.kernel import Kernel
-from gpfads.util import util
+from mods.kernel import Kernel
+from util import util
 import os
 
 if __name__ == "__main__":
-    figpath = './plots/'
+    figpath = '../plots/'
     mysavefig = util.savefig(figpath = figpath)
 
     '''
@@ -22,7 +25,7 @@ if __name__ == "__main__":
     k = 10 
     d = 2 
     t = 100 
-    tmax = 5
+    tmax = .5
     kern = 'sq'
     alpha = .99
     plot = True
@@ -45,9 +48,9 @@ if __name__ == "__main__":
         ############ PLOT RESULTS ############
         pl.rcParams["axes.prop_cycle"] = pl.cycler("color", pl.cm.Set2(np.linspace(0,1,k)))
 
-        fname = 'cov.png'
+        fname = 'cov'
         fig, axs = pl.subplots(ncols = 2, figsize = (4, 2))
-        fig.suptitle('Multi-ouptut covariance', y = 1.2)
+        fig.suptitle('Multi-output covariance', y = 1.2)
         axs[0].imshow(Kxx_rev)
         axs[1].imshow(Kxx_nonrev)
         axs[0].set_title('reversible \n' + r'$\alpha = 0$')
@@ -56,7 +59,7 @@ if __name__ == "__main__":
         mysavefig(fname)
 
 
-        fname = 'draws.png'
+        fname = 'draws'
         fig, axs = pl.subplots(ncols = 2, figsize = (4, 2), sharex = True, sharey = True)
         fig.suptitle('Samples', y = 1.3)
         axs[0].plot(yknt_rev[:,0].T, yknt_rev[:,1].T)
