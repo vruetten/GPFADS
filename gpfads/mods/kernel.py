@@ -7,19 +7,21 @@ def intialise_kernel_params(d, kern = 'sq', kk = 1):
         '''
     alpha = np.ones((d, 1))*0.
     alphab =[(0, .999)]*d
-    l = np.ones((d, kk))*1.
+    l = np.ones((d, kk))*.1
     lb = [(1e-2, 1e3)]*d*kk
+    sigma = np.ones((d, kk))*1 
+    sigmab = [(1e-2, 1e2)]*d*kk
 
     if 'sm' in kern:
         w = np.ones((d, kk))*1
         wb = [(1e-3, 10)]*d*kk
 
-        bounds = lb + alphab + wb
-        return [l, alpha, w], bounds
+        bounds = lb + alphab + wb + sigmab
+        return [l, alpha, w, sigma], bounds
 
     else:
-        bounds = lb + alphab 
-        return [l, alpha], bounds 
+        bounds = lb + alphab + sigmab
+        return [l, alpha, sigma], bounds 
 
 def build_A(d):
     '''
@@ -82,10 +84,10 @@ class Kernel():
         ind: plane number
         '''
         if 'sm' in self.kern:
-            l, alpha, w = self.unpack(kern_params)
+            l, alpha, w, sigma = self.unpack(kern_params)
             pp = list(zip(l[ind], w[ind]))
         else:
-            l, alpha = self.unpack(kern_params)
+            l, alpha, sigma = self.unpack(kern_params)
             pp = [l[ind]]
         
         
@@ -97,7 +99,7 @@ class Kernel():
         cplus = np.kron(Aplus, fplus)
         cdiff = alpha[ind]*np.kron(Adiff, fdiff)
         kxx = cplus + cdiff
-        return kxx
+        return sigma[ind]*kxx
 
     def build_Kxx(self, x0, x1, kern_params, fudge = 1e-4, split = False):
         Kxx = []
